@@ -34,9 +34,11 @@
     "config": "^3.3.12",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.4",
+    "drizzle-zod": "^0.6.1",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1",
-    "postgres": "^3.4.5"
+    "postgres": "^3.4.5",
+    "zod": "^3.24.1"
   }
 }

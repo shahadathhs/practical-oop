@@ -20,6 +20,9 @@ importers:
       drizzle-orm:
         specifier: ^0.38.4
         version: 0.38.4(@types/pg@8.11.11)(pg@8.13.1)(postgres@3.4.5)
+      drizzle-zod:
+        specifier: ^0.6.1
+        version: 0.6.1(drizzle-orm@0.38.4(@types/pg@8.11.11)(pg@8.13.1)(postgres@3.4.5))(zod@3.24.1)
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -32,6 +35,9 @@ importers:
       postgres:
         specifier: ^3.4.5
         version: 3.4.5
+      zod:
+        specifier: ^3.24.1
+        version: 3.24.1
     devDependencies:
       '@types/bcryptjs':
         specifier: ^2.4.6
@@ -821,6 +827,12 @@ packages:
       sqlite3:
         optional: true
 
+  drizzle-zod@0.6.1:
+    resolution: {integrity: sha512-huEbUgnsuR8tupnmLiyB2F1I2H9dswI3GfM36IbIqx9i0YUeYjRsDpJVyFVeziUvI1ogT9JHRL2Q03cC4QmvxA==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
+
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -1429,6 +1441,9 @@ packages:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
     engines: {node: '>=6'}
 
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
+
 snapshots:
 
   '@cspotcode/source-map-support@0.8.1':
@@ -1886,6 +1901,11 @@ snapshots:
       '@types/pg': 8.11.11
       pg: 8.13.1
       postgres: 3.4.5
+
+  drizzle-zod@0.6.1(drizzle-orm@0.38.4(@types/pg@8.11.11)(pg@8.13.1)(postgres@3.4.5))(zod@3.24.1):
+    dependencies:
+      drizzle-orm: 0.38.4(@types/pg@8.11.11)(pg@8.13.1)(postgres@3.4.5)
+      zod: 3.24.1
 
   dunder-proto@1.0.1:
     dependencies:
@@ -2573,3 +2593,5 @@ snapshots:
   xtend@4.0.2: {}
 
   yn@3.1.1: {}
+
+  zod@3.24.1: {}
