@@ -2,6 +2,7 @@ import { BookTable, NewBook, UpdateBook } from '@/db/schemas';
 import db from '../db/connect';
 import { PgColumn } from 'drizzle-orm/pg-core';
 import { asc, desc, eq, ilike, or } from 'drizzle-orm';
+import { BaseRepository } from '@/lib/core/BaseRepository';
 
 export type FindOptions = {
 	page?: number;
@@ -91,3 +92,5 @@ export class BookRepository {
 		return this.db.delete(this.table).where(eq(this.table.id, id));
 	}
 }
+
+export class BookRepository2 extends BaseRepository<typeof BookTable> {}

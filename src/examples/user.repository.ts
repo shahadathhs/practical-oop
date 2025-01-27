@@ -1,7 +1,9 @@
-import { NewUser, UpdateUser, UsersTable } from '@/db/schemas';
+import { NewUser, UpdateUser, User, UsersTable } from '@/db/schemas';
 import db from '../db/connect';
 import { PgColumn } from 'drizzle-orm/pg-core';
 import { asc, Column, desc, eq, ilike, or } from 'drizzle-orm';
+import { BaseRepository } from '@/lib/core/BaseRepository';
+import { DatabaseClientPool } from '@/lib/db/DatabaseClientPool';
 
 export type FindOptions = {
 	page?: number;
@@ -85,4 +87,9 @@ export class UserRepository {
 	delete(id: string) {
 		return this.db.delete(this.table).where(eq(this.table.id, id));
 	}
+}
+
+export class UserRepository2 extends BaseRepository<typeof UsersTable> {
+	findBooks(userId: string) {}
+	findBookDetails(userId: string, bookId: string) {}
 }

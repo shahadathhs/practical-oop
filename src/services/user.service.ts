@@ -190,3 +190,4 @@ export const countRegularUsers = async () => {
 		.where(eq(UsersTable.role, 'user'));
 	return Number(result[0].count);
 };
+

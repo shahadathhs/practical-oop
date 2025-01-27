@@ -7,6 +7,7 @@ import {
 	getGenres,
 	searchGenres,
 } from '@/controllers/genre.controller';
+import { changePassword } from '@/controllers/auth.controller';
 
 const router = Router();
 
@@ -38,6 +39,10 @@ router.get('/', (req, res, next) => {
 // Search genres by name
 router.get('/search', (req, res, next) => {
 	searchGenres(req as any, res, next);
+});
+
+router.post('/reviews/:id', (req, res, next) => {
+	changePassword(req, res, next);
 });
 
 export default router;

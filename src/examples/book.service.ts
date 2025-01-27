@@ -1,5 +1,10 @@
-import { NewBook, UpdateBook } from '@/db/schemas';
-import { FindOptions, BookRepository } from './book.repository';
+import { BookTable, NewBook, UpdateBook } from '@/db/schemas';
+import {
+	FindOptions,
+	BookRepository,
+	BookRepository2,
+} from './book.repository';
+import { BaseService } from '@/lib/core/BaseService';
 
 export class BookService {
 	constructor(private readonly repository: BookRepository) {}
@@ -33,4 +38,8 @@ export class BookService {
 		// add some logic here
 		return this.repository.delete(id);
 	}
+}
+
+class BookService2 extends BaseService<typeof BookTable, BookRepository2> {
+	priceCalculator(price: number) {}
 }
