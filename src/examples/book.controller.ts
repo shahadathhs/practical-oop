@@ -4,7 +4,11 @@ import { BookService } from '@/services/book.service';
 import { Request, Response } from 'express';
 import { Logger } from '@/lib/Logger';
 import { Cache } from '@/lib/Cache';
+import { Controller, Delete, Get, Post, Put } from '@/lib/decorator';
+import { injectable } from 'tsyringe';
 
+@injectable()
+@Controller('/api/v3/books')
 export class BookController {
 	constructor(
 		private readonly service: BookService,
@@ -12,9 +16,11 @@ export class BookController {
 		private readonly cache: Cache
 	) {}
 
+	@Get('/')
 	async findAll(req: Request, res: Response) {
 		const parsedQuery = FindOptionsSchema.safeParse(req.query);
 		if (!parsedQuery.success) {
+			console.log(parsedQuery.error);
 			this.logger.error('Invalid query');
 			return res.status(400).json({ message: 'Invalid query' });
 		}
@@ -30,12 +36,14 @@ export class BookController {
 		res.status(200).json(books);
 	}
 
+	@Get('/:id')
 	async findById(req: Request, res: Response) {
 		const { id } = req.params;
 		const book = await this.service.findById(id);
 		res.status(200).json(book);
 	}
 
+	@Get('/search')
 	async search(req: Request, res: Response) {
 		const { query = '' } = req.query;
 		const where: FilterRuleGroup = {
@@ -58,16 +66,19 @@ export class BookController {
 		res.status(200).json(books);
 	}
 
+	@Post('/')
 	async create(req: Request, res: Response) {
 		const book = await this.service.create(req.body);
 		res.status(201).json(book);
 	}
 
+	@Put('/:id')
 	async update(req: Request, res: Response) {
 		const book = await this.service.update(req.params.id, req.body);
 		res.status(200).json(book);
 	}
 
+	@Delete('/:id')
 	async delete(req: Request, res: Response) {
 		await this.service.delete(req.params.id);
 		res.status(204).send();

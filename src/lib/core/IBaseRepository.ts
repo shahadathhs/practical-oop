@@ -20,8 +20,8 @@ export type FindOptionsSQL = {
 export const FindOptionsSchema = z
 	.object({
 		where: FilterRuleGroupSchema,
-		limit: z.number().default(10),
-		offset: z.number().default(0),
+		limit: z.coerce.number().default(10),
+		offset: z.coerce.number().default(0),
 		orderBy: z.array(
 			z.object({
 				column: z.string(),

@@ -3,7 +3,9 @@ import { UserRepository } from '@/repository/user.repository';
 import { BaseService } from '@/lib/core/BaseService';
 import { Email } from '@/lib/Email';
 import { Logger } from '@/lib/Logger';
+import { injectable } from 'tsyringe';
 
+@injectable()
 export class UserService extends BaseService<
 	typeof UsersTable,
 	UserRepository

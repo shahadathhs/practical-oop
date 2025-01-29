@@ -1,10 +1,24 @@
-import app from '@/app';
+import { createApp } from '@/app';
 import http from 'http';
-import './lib/decorator/test';
+import { registerDependencies } from './registry';
 
 const port = process.env.PORT || 3000;
-const server = http.createServer(app);
+let server: http.Server;
 
-server.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
-});
+async function main() {
+	try {
+		await registerDependencies();
+		const app = createApp();
+
+		server = http.createServer(app);
+
+		server.listen(port, () => {
+			console.log(`Server is running on port ${port}`);
+		});
+	} catch (error) {
+		console.error('Failed to start the server', error);
+		process.exit(1);
+	}
+}
+
+main();

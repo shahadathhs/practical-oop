@@ -68,16 +68,3 @@ export class DatabaseClientPool implements IDatabaseClient {
 		}
 	}
 }
-
-async function test() {
-	const dbClient = new DatabaseClientPool({
-		url: process.env.DATABASE_URL!,
-	});
-
-	const books = await dbClient.executeQuery('Find Books', async (db) => {
-		return await db.query.BookTable.findMany();
-	});
-	console.log('Books', books);
-}
-
-test();

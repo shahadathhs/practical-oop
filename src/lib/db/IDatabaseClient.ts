@@ -3,6 +3,8 @@ import * as schema from '@/db/schemas';
 
 export type DrizzleClient = ReturnType<typeof drizzle<typeof schema>>;
 
+export const DatabaseClientToken = Symbol('DatabaseClientToken');
+
 export interface IDatabaseClient {
 	connect(): Promise<void>;
 	disconnect(): Promise<void>;
