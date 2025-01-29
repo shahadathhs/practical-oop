@@ -6,19 +6,19 @@
 // import { Pen } from './Pen';
 // import { Product } from './Product';
 
-import { Checkout } from './Checkout';
+import { Checkout } from "./Checkout";
 import {
-	EmailService,
-	INotificationService,
-	PushNotificationService,
-	SMSService,
-} from './Notification';
+  EmailService,
+  INotificationService,
+  PushNotificationService,
+  SMSService,
+} from "./class/Notification";
 import {
-	ApplePayPaymentProcessor,
-	PayPalPaymentProcessor,
-	SSLCommerzPaymentProcessor,
-	StripePaymentProcessor,
-} from './Payment';
+  ApplePayPaymentProcessor,
+  PayPalPaymentProcessor,
+  SSLCommerzPaymentProcessor,
+  StripePaymentProcessor,
+} from "./class/Payment";
 
 // const inventoryManager = new InventoryManager();
 
@@ -130,15 +130,15 @@ const checkout2 = new Checkout(new SSLCommerzPaymentProcessor());
 const checkout3 = new Checkout(new ApplePayPaymentProcessor());
 
 async function main() {
-	const result1 = await checkout1.completePurchase(100);
-	const result2 = await checkout2.completePurchase(100);
-	const result3 = await checkout3.completePurchase(100);
+  const result1 = await checkout1.completePurchase(100);
+  const result2 = await checkout2.completePurchase(100);
+  const result3 = await checkout3.completePurchase(100);
 
-	if (result1.success) {
-		setTimeout(() => {
-			checkout1.handleRefund(result1.transactionId!);
-		}, 3000);
-	}
+  if (result1.success) {
+    setTimeout(() => {
+      checkout1.handleRefund(result1.transactionId!);
+    }, 3000);
+  }
 }
 
 main();
