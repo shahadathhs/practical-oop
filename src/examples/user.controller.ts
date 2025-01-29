@@ -1,79 +1,72 @@
-import { UserService } from './user.service';
+import { UpdateUserSchema } from '@/db/schemas/user';
+import { FilterRuleGroup } from '@/lib/core/FilterBuilder';
+import { FindOptionsSchema } from '@/lib/core/IBaseRepository';
+import { UserService } from '@/services/user.service';
 import { Request, Response } from 'express';
 
 export class UserController {
 	constructor(private readonly service: UserService) {}
 
 	async findAll(req: Request, res: Response) {
-		try {
-			const { page, limit, orderBy, orderDirection } = req.query;
-
-			const users = await this.service.findAll({
-				page: page ? Number(page) : undefined,
-				limit: limit ? Number(limit) : undefined,
-				orderBy: orderBy ? String(orderBy) : undefined,
-				orderDirection: orderDirection
-					? (orderDirection as 'asc' | 'desc')
-					: undefined,
-			});
-			res.json(users);
-		} catch (error) {
-			console.log('Error in findAll:', error);
-			res.status(500).json({ message: 'Internal server error' });
+		const parsedQuery = FindOptionsSchema.safeParse(req.query);
+		if (!parsedQuery.success) {
+			return res.status(400).json({ message: 'Invalid query' });
 		}
+
+		const users = await this.service.findAll(parsedQuery.data);
+		res.json(users);
 	}
 
 	async findById(req: Request, res: Response) {
-		try {
-			const { id } = req.params;
-			const user = await this.service.findById(id);
-			res.json(user);
-		} catch (error) {
-			console.log('Error in findById:', error);
-			res.status(500).json({ message: 'Internal server error' });
-		}
+		const user = await this.service.findById(req.params.id);
+		res.json(user);
 	}
 
 	async search(req: Request, res: Response) {
-		try {
-			const { query } = req.query;
-			const users = await this.service.search({ query: String(query) });
-			res.json(users);
-		} catch (error) {
-			console.log('Error in search:', error);
-			res.status(500).json({ message: 'Internal server error' });
-		}
+		const { query = '' } = req.query;
+		const where: FilterRuleGroup = {
+			combinator: 'or',
+			rules: [
+				{
+					field: 'name',
+					operator: 'contains',
+					value: query,
+				},
+				{
+					field: 'email',
+					operator: 'contains',
+					value: query,
+				},
+				{
+					field: 'id',
+					operator: '=',
+					value: query,
+				},
+			],
+		};
+
+		const users = await this.service.findAll({ where });
+		res.json(users);
 	}
 
 	async create(req: Request, res: Response) {
-		try {
-			const user = await this.service.create(req.body);
-			res.json(user);
-		} catch (error) {
-			console.log('Error in create:', error);
-			res.status(500).json({ message: 'Internal server error' });
-		}
+		const user = await this.service.create(req.body);
+		res.json(user);
 	}
 
 	async update(req: Request, res: Response) {
-		try {
-			const { id } = req.params;
-			const user = await this.service.update(id, req.body);
-			res.json(user);
-		} catch (error) {
-			console.log('Error in update:', error);
-			res.status(500).json({ message: 'Internal server error' });
+		const parsedBody = UpdateUserSchema.safeParse(req.body);
+
+		if (!parsedBody.success) {
+			return res.status(400).json({ message: 'Invalid body' });
 		}
+
+		const user = await this.service.update(req.params.id, parsedBody.data);
+		res.json(user);
 	}
 
 	async delete(req: Request, res: Response) {
-		try {
-			const { id } = req.params;
-			await this.service.delete(id);
-			res.status(204).send();
-		} catch (error) {
-			console.log('Error in delete:', error);
-			res.status(500).json({ message: 'Internal server error' });
-		}
+		await this.service.delete(req.params.id);
+		res.status(204).send();
 	}
 }
