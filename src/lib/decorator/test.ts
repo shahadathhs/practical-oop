@@ -44,4 +44,4 @@ class User {
 }
 
 const user = new User();
-user.createUser('John');
+user.createUser('John', 'john@example.com');
