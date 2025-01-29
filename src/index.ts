@@ -1,1 +1,1 @@
-import './TextProcessor';
+import "./textprocessor/TextProcessor";
